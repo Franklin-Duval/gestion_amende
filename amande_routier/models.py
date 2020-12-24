@@ -28,12 +28,12 @@ class BD_Police(models.Model):
     statut_matrimoniale = models.IntegerField(choices=STATUT)
 
     def __str__(self):
-        return self.CNI + " " + self.nom
+        return str(self.CNI) + " " + self.nom
 
 
 class Matricule_Vehicule(models.Model):
     matricule = models.CharField(max_length=15, null=False, unique=True)
-    carte_grise = models.CharField(max_length=20, null=False, unique=True)
+    carte_grise = models.CharField(max_length=30, null=False, unique=True)
     proprietaire = models.ForeignKey(BD_Police, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -74,6 +74,7 @@ class Infraction(models.Model):
     amende = models.ForeignKey(Amende, on_delete=models.CASCADE, null=False)
     policier = models.ForeignKey(Controlleur_Routier, on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(auto_now_add=True)
+    payé = models.BooleanField(default=False)
 
     def __str__(self):
         return self.fuyard.CNI + " " + self.date

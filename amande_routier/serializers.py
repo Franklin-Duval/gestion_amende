@@ -83,5 +83,6 @@ class InfractionSerializer(serializers.HyperlinkedModelSerializer):
             'fuyard',
             'amende',
             'policier',
-            'date'
+            'date',
+            'payé',
         ]
