@@ -84,5 +84,6 @@ class InfractionSerializer(serializers.HyperlinkedModelSerializer):
             'amende',
             'policier',
             'date',
+            'lieux',
             'payé',
         ]

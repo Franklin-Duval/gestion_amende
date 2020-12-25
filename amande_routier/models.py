@@ -33,7 +33,7 @@ class BD_Police(models.Model):
 
 class Matricule_Vehicule(models.Model):
     matricule = models.CharField(max_length=15, null=False, unique=True)
-    carte_grise = models.CharField(max_length=30, null=False, unique=True)
+    carte_grise = models.CharField(max_length=100, null=False, unique=True)
     proprietaire = models.ForeignKey(BD_Police, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -48,16 +48,23 @@ class Controlleur_Routier(BD_Police):
     password = models.CharField(max_length=50, null=False)
 
     def __str__(self):
-        return self.num_identification + " " + self.nom
+        return str(self.num_identification) + " " + self.nom
 
+    def increment_amende(self):
+        self.nombre_amende = self.nombre_amende + 1
+        self.save()
 
 class Fuyard(models.Model):
-    fuyeur = models.ForeignKey(BD_Police, on_delete=models.CASCADE)
-    nombre_infraction = models.IntegerField(default=0, null=False)
+    fuyeur = models.ForeignKey(BD_Police, on_delete=models.CASCADE, null=True)
+    nombre_infraction = models.IntegerField(default=1, null=False)
+    matricule_vehicule = models.CharField(max_length=15, unique=True, null=True)
 
     def __str__(self):
-        return self.fuyeur.CNI + " " + self.fuyeur.nom
+        return str(self.fuyeur.CNI) + " " + self.fuyeur.nom
 
+    def increment_infraction(self):
+        self.nombre_infraction = self.nombre_infraction + 1
+        self.save()
 
 class Amende(models.Model):
     nom_amende = models.CharField(max_length=50, null=False)
@@ -68,13 +75,17 @@ class Amende(models.Model):
     def __str__(self):
         return self.nom_amende
 
+    def increment_victime(self):
+        self.nombre_victimes = self.nombre_victimes + 1
+        self.save()
 
 class Infraction(models.Model):
     fuyard = models.ForeignKey(Fuyard, on_delete=models.CASCADE, null=False)
     amende = models.ForeignKey(Amende, on_delete=models.CASCADE, null=False)
     policier = models.ForeignKey(Controlleur_Routier, on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(auto_now_add=True)
+    lieux = models.CharField(max_length=50, null=True)
     payé = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.fuyard.CNI + " " + self.date
+        return str(self.fuyard.CNI) + " " + self.date
