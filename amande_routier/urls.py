@@ -15,5 +15,6 @@ routers.register(r'policier', views.Controlleur_RoutierViewSet)
 
 urlpatterns = [
     path('', include(routers.urls)),
-    path('auth-login/', views.login)
+    path('auth-login/', views.login),
+    path('getuser/', views.getUser)
 ]

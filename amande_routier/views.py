@@ -118,6 +118,75 @@ def login(request):
             }
             return Response(result)     
 
+@api_view(['GET', 'POST'])
+def getUser(request):
+    usager = {}
+    if (request.method=='POST'):
+        try:
+            if ("CNI" in request.data):
+                user = BD_Police.objects.get(CNI = request.data["CNI"])
+                print(user.id)
+                try:
+                    voiture = Matricule_Vehicule.objects.get(proprietaire = user.id)
+                    usager = {
+                        "id_usager": user.id,
+                        "CNI": user.CNI,
+                        "nom": user.nom,
+                        "prenom": user.prenom,
+                        "adresse": user.adresse,
+                        "contact": user.contact,
+                        "date_naissance": user.date_naissance,
+                        "age": user.age,
+                        "statut_matrimoniale": user.statut_matrimoniale,
+                        "id_voiture": voiture.id,
+                        "matricule": voiture.matricule,
+                        "carte_grise": voiture.carte_grise
+                    }
+                except:
+                    usager = {
+                        "id_usager": user.id,
+                        "CNI": user.CNI,
+                        "nom": user.nom,
+                        "prenom": user.prenom,
+                        "adresse": user.adresse,
+                        "contact": user.contact,
+                        "date_naissance": user.date_naissance,
+                        "age": user.age,
+                        "statut_matrimoniale": user.statut_matrimoniale
+                    }
+                
+            elif ("matricule" in request.data):
+                voiture = Matricule_Vehicule.objects.get(matricule = request.data["matricule"])
+                
+                prop = voiture.proprietaire.id
+                user = BD_Police.objects.get(id = prop)
+                usager = {
+                    "id_usager": user.id,
+                    "CNI": user.CNI,
+                    "nom": user.nom,
+                    "prenom": user.prenom,
+                    "adresse": user.adresse,
+                    "contact": user.contact,
+                    "date_naissance": user.date_naissance,
+                    "age": user.age,
+                    "statut_matrimoniale": user.statut_matrimoniale,
+                    "id_voiture": voiture.id,
+                    "matricule": voiture.matricule,
+                    "carte_grise": voiture.carte_grise
+                }
+            else:
+                return Response({"status": "Only Matricule and CNI are accepted"}, status=status.HTTP_200_OK)
+        except:
+            result = {
+                "code": "HTTP_401_UNAUTHORIZED",
+                "status": "FAILED",
+                "message": "User not found"
+            }
+            return Response(result)
+
+        return Response(usager, status=status.HTTP_200_OK)
+
+    
 
 @api_view(['GET'])
 def errorPage(request):
