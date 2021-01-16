@@ -56,7 +56,7 @@ class Controlleur_Routier(BD_Police):
 
 class Fuyard(models.Model):
     fuyeur = models.ForeignKey(BD_Police, on_delete=models.CASCADE, null=True)
-    nombre_infraction = models.IntegerField(default=1, null=False)
+    nombre_infraction = models.IntegerField(default=0, null=False)
     matricule_vehicule = models.CharField(max_length=15, unique=True, null=True)
 
     def __str__(self):

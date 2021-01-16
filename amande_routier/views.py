@@ -88,7 +88,7 @@ def login(request):
         result = {
             "status": "FAILURE",
             "code": "HTTP_400_BAD_REQUEST",
-            "message": "Only username and password attributes are accepted",
+            "message": "Only username, password and type fields are accepted",
         }
         return Response(result, status=status.HTTP_400_BAD_REQUEST)
         
@@ -100,7 +100,7 @@ def login(request):
             if (request.data["type"] == "admin"):
                 Admin.objects.get(username=username, password=password)
             elif (request.data["type"] == "policier"):
-                Controlleur_Routier.objects.get(username=username, password=password)
+                Controlleur_Routier.objects.get(user_name=username, password=password)
             else:
                 return Response({"status": "error type"}, status=status.HTTP_200_OK)
             
