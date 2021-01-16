@@ -14,19 +14,19 @@ class AdminViewSet(viewsets.ModelViewSet):
     serializer_class = AdminSerializer
 
 class BD_PoliceViewSet(viewsets.ModelViewSet):
-    queryset = BD_Police.objects.all()
+    queryset = BD_Police.objects.all().order_by('id')
     serializer_class = BD_PoliceSerializer
 
 class Matricule_VehiculeViewSet(viewsets.ModelViewSet):
-    queryset = Matricule_Vehicule.objects.all()
+    queryset = Matricule_Vehicule.objects.all().order_by('id')
     serializer_class = Matricule_VehiculeSerializer
 
 class Controlleur_RoutierViewSet(viewsets.ModelViewSet):
-    queryset = Controlleur_Routier.objects.all()
+    queryset = Controlleur_Routier.objects.all().order_by('id')
     serializer_class = Controlleur_RoutierSerializer
 
 class InfractionViewSet(viewsets.ModelViewSet):
-    queryset = Infraction.objects.all()
+    queryset = Infraction.objects.all().order_by('id')
     serializer_class = InfractionSerializer
 
     def create(self, request, *args, **kwargs):
@@ -73,11 +73,11 @@ class InfractionViewSet(viewsets.ModelViewSet):
 
 
 class FuyardViewSet(viewsets.ModelViewSet):
-    queryset = Fuyard.objects.all()
+    queryset = Fuyard.objects.all().order_by('id')
     serializer_class = FuyardSerializer
 
 class AmendeViewSet(viewsets.ModelViewSet):
-    queryset = Amende.objects.all()
+    queryset = Amende.objects.all().order_by('id')
     serializer_class = AmendeSerializer
 
 
