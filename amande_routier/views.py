@@ -95,11 +95,12 @@ def login(request):
     if (request.method=='POST'):
         username = request.data["username"]
         password = request.data["password"]
+        type = request.data["type"]
         
         try:
-            if (request.data["type"] == "admin"):
+            if (type == "admin"):
                 Admin.objects.get(username=username, password=password)
-            elif (request.data["type"] == "policier"):
+            elif (type == "policier"):
                 Controlleur_Routier.objects.get(user_name=username, password=password)
             else:
                 return Response({"status": "error type"}, status=status.HTTP_200_OK)
@@ -107,7 +108,8 @@ def login(request):
             result = {
                 "code": "HTTP_200_OK",
                 "login": "SUCCESS",
-                "user": username
+                "user": username,
+                "type": type
             }
             return Response(result, status=status.HTTP_200_OK)
         except:
